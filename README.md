@@ -10,12 +10,20 @@ Nuxt 4 frontend for the [Sakila Film Catalog](https://github.com/Iliaslosifidis/
 
 ## Screenshots
 
-> _Add screenshots here. Recommended:_
-> 1. Landing page with films loaded
+> 1. Landing page with films
+loaded<img width="1598" height="1836" alt="Screenshot 2026-05-03 185620" src="https://github.com/user-attachments/assets/9eb38a77-a2eb-45ae-8318-92fba7c1c178" />
+
 > 2. Search dropdown showing autocomplete
+<img width="1330" height="338" alt="Screenshot 2026-05-03 185332" src="https://github.com/user-attachments/assets/38ddd5f3-92aa-4a67-b448-5de58af8911d" />
+
 > 3. Filter sidebar with multiple filters applied
-> 4. Detail modal open on a film
+<img width="1734" height="1149" alt="Screenshot 2026-05-03 185250" src="https://github.com/user-attachments/assets/75b13129-1c12-4ca7-99c2-fd709752282a" />
+
+> 4. Detail modal open on a film<img width="1206" height="584" alt="Screenshot 2026-05-03 185816" src="https://github.com/user-attachments/assets/c338363c-9fb2-4016-924e-9d90a4f83973" />
+
 > 5. Edit mode in modal
+> 6. <img width="1228" height="929" alt="Screenshot 2026-05-03 185822" src="https://github.com/user-attachments/assets/68d88220-3055-4636-8ff5-036eb409311b" />
+
 
 ---
 
