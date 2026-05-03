@@ -15,6 +15,7 @@ Nuxt 4 frontend for the [Sakila Film Catalog](https://github.com/Iliaslosifidis/
 > 2. Search dropdown showing autocomplete
 > 3. Filter sidebar with multiple filters applied
 > 4. Detail modal open on a film
+> 5. Edit mode in modal
 
 ---
 
