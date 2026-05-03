@@ -262,6 +262,7 @@
 import { useFilmsStore } from '../stores/films'
 import { watchDebounced } from '@vueuse/core'
 import { onClickOutside } from '@vueuse/core'
+import { watch } from 'vue'
 
 const store = useFilmsStore()
 const modalOpen = computed({
@@ -291,6 +292,17 @@ watchDebounced(
     },
     { debounce: 250 }
 )
+
+watch(() => store.modalOpen, (isOpen) => {
+  if (isOpen) {
+    // Reset modal state for fresh session
+    actionError.value = ''
+    editMode.value = false
+  }else {
+    store.selectedFilm = null  // optional — prevents stale data flash on next open
+  }
+})
+
 function startEdit() {
   actionError.value = ''
   editForm.value = {
@@ -301,6 +313,7 @@ function startEdit() {
   editMode.value = true
 }
 async function saveEdit() {
+
   actionError.value = ''
   try {
     await store.updateFilm(store.selectedFilm.filmId, editForm.value)
