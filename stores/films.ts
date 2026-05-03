@@ -1,10 +1,16 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
+import type { AxiosInstance } from 'axios'
 
-const API = axios.create({
-    baseURL: 'http://localhost:8080/api/film'
-})
+let apiInstance: AxiosInstance | null = null
 
+function getAPI(): AxiosInstance {
+    if (!apiInstance) {
+        const config = useRuntimeConfig()
+        apiInstance = axios.create({ baseURL: config.public.apiBase })
+    }
+    return apiInstance
+}
 export const useFilmsStore = defineStore('films', {
     state: () => ({
         films: [] as any[],
@@ -38,7 +44,7 @@ export const useFilmsStore = defineStore('films', {
                 if (this.filters.lengthBracket) params.lengthBracket = this.filters.lengthBracket
                 if (this.filters.ratings.length) params.rating = this.filters.ratings
 
-                const { data } = await API.get('/search', { params })
+                const { data } = await getAPI().get('/search', { params })
                 this.films = data.content
                 this.totalPages = data.totalPages
                 this.totalElements = data.totalElements
@@ -48,11 +54,11 @@ export const useFilmsStore = defineStore('films', {
             }
         },
         async updateFilm(id: number, payload: any) {
-            await API.put(`/${id}`, payload)
+            await getAPI().put(`/${id}`, payload)
         },
 
         async deleteFilm(id: number) {
-            await API.delete(`/${id}`)
+            await getAPI().delete(`/${id}`)
         },
 
         async autocomplete(prefix: string) {
@@ -61,13 +67,13 @@ export const useFilmsStore = defineStore('films', {
                 this.autocompleteOpen = false
                 return
             }
-            const { data } = await API.get('/autocomplete', { params: { q: prefix, limit: 5 } })
+            const { data } = await getAPI().get('/autocomplete', { params: { q: prefix, limit: 5 } })
             this.autocompleteResults = data
             this.autocompleteOpen = data.length > 0
         },
 
         async fetchFilmById(id: number) {
-            const { data } = await API.get(`/${id}`)
+            const { data } = await getAPI().get(`/${id}`)
             this.selectedFilm = data
         },
 
