@@ -72,11 +72,8 @@ export const useFilmsStore = defineStore('films', {
         },
 
         async openFilm(id: number) {
-            console.log('openFilm called with', id)
             await this.fetchFilmById(id)
-            console.log('fetched film:', this.selectedFilm)
             this.modalOpen = true
-            console.log('modalOpen set to true')
         },
 
         clearFilters() {
@@ -89,7 +86,7 @@ export const useFilmsStore = defineStore('films', {
         },
 
         clearSelection() {
-            this.selectedFilm = null
+            this.selectedFilm = null as any
         }
     }
 })

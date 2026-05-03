@@ -265,10 +265,6 @@ import { onClickOutside } from '@vueuse/core'
 import { watch } from 'vue'
 
 const store = useFilmsStore()
-const modalOpen = computed({
-  get: () => store.modalOpen,
-  set: (v) => store.modalOpen = v
-})
 const searchContainer = ref(null)
 onClickOutside(searchContainer, () => {
   store.autocompleteOpen = false
@@ -313,12 +309,15 @@ function startEdit() {
   editMode.value = true
 }
 async function saveEdit() {
-
   actionError.value = ''
   try {
     await store.updateFilm(store.selectedFilm.filmId, editForm.value)
+    // Optimistic update — patch the list locally
+    const idx = store.films.findIndex(f => f.id === store.selectedFilm.filmId)
+    if (idx !== -1) {
+      store.films[idx] = { ...store.films[idx], title: editForm.value.title }
+    }
     editMode.value = false
-    await store.search(store.currentPage)  // refresh list
   } catch (e: any) {
     actionError.value = e.response?.data?.message || 'Update failed'
   }
@@ -328,8 +327,8 @@ async function confirmDelete() {
   actionError.value = ''
   try {
     await store.deleteFilm(store.selectedFilm.filmId)
-    store.modalOpen = false
-    await store.search(store.currentPage)  // refresh list
+    store.films = store.films.filter(f => f.id !== store.selectedFilm.filmId)
+    store.modalOpen = false // refresh list
   } catch (e: any) {
     actionError.value = e.response?.data?.message || 'Delete failed (film may have rental history)'
   }
@@ -347,11 +346,6 @@ function onSuggestionClick(suggestion: any) {
 }
 
 function goToPage(page: number) {
-  // If user has a search/filter active, paginate through search; otherwise fetch all
-  if (store.searchQuery || store.filters.language || store.filters.priceBracket || store.filters.lengthBracket || store.filters.ratings.length) {
     store.search(page)
-  } else {
-    store.search(page)
-  }
 }
 </script>
